@@ -1,52 +1,31 @@
-name: Xcode - Build
+name: Build iOS Project
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
-    name: Build UE4Dumper-IOS
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Detect default scheme (first target in project)
-      - name: Detect scheme
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build iOS app
         run: |
-          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
-          echo "$default" >default
-          echo "Using default scheme: $default"
-
-      - name: Build project (no signing)
-        run: |
-          scheme=$(cat default)
-          if ls *.xcworkspace 1>/dev/null 2>&1; then
-            filetype_parameter="workspace"
-            file_to_build=$(ls *.xcworkspace | head -n 1)
-          else
-            filetype_parameter="project"
-            file_to_build=$(ls *.xcodeproj | head -n 1)
-          fi
-
-          echo "Building $file_to_build with scheme $scheme"
-
-          xcodebuild clean build \
-            -scheme "$scheme" \
-            -"$filetype_parameter" "$file_to_build" \
-            -sdk iphoneos \
+          xcodebuild \
+            -project UE4Dumper-IOS/UE4Dumper-IOS.xcodeproj \
+            -scheme UE4Dumper-IOS \
             -configuration Release \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="" \
-            | xcpretty
+            -sdk iphoneos \
+            build \
+            CODE_SIGNING_ALLOWED=NO
 
-      - name: Upload .app artifact
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: UE4Dumper-IOS.app
-          path: build/Release-iphoneos/*.app
+          name: UE4Dumper-IOS-Build
+          path: build/Release-iphoneos
