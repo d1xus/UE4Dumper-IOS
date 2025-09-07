@@ -21,8 +21,10 @@ jobs:
             build \
             CODE_SIGNING_ALLOWED=NO
 
-      - name: Upload build artifacts
+      - name: Upload .app artifact
         uses: actions/upload-artifact@v4
         with:
-          name: UE4Dumper-IOS-Build
-          path: build/Release-iphoneos
+          name: UE4Dumper-IOS
+          path: |
+            /Users/runner/Library/Developer/Xcode/DerivedData/UE4Dumper-IOS-*/Build/Products/Release-iphoneos/UE4Dumper-IOS.app
+            
