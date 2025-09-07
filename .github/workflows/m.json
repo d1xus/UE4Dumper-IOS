@@ -1,0 +1,43 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest   # <— this gives you macOS with Xcode preinstalled
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Select the right Xcode version (GitHub provides several)
+      - name: Set Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app
+
+      # Build the project with xcodebuild
+      - name: Build iOS app
+        run: |
+          xcodebuild \
+            -project UE4Dumper-IOS.xcodeproj \
+            -scheme UE4Dumper-IOS \
+            -sdk iphoneos \
+            -configuration Release \
+            build
+
+      # Optionally export IPA
+      - name: Archive and Export
+        run: |
+          xcodebuild \
+            -project UE4Dumper-IOS.xcodeproj \
+            -scheme UE4Dumper-IOS \
+            -sdk iphoneos \
+            -configuration Release \
+            archive \
+            -archivePath build/UE4Dumper-IOS.xcarchive
+
+          xcodebuild -exportArchive \
+            -archivePath build/UE4Dumper-IOS.xcarchive \
+            -exportOptionsPlist ExportOptions.plist \
+            -exportPath build
