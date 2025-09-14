@@ -81,167 +81,123 @@ namespace Offsets {
 
     void initOffsets_32() {
         //Global
-        PointerSize = 0x4;
-        FUObjectItemSize = 0x10;
+        PointerSize = 0x4;               // оставлено
+        FUObjectItemSize = 0x18;         // заменено на FUObjectItem::Size
 
         //---------SDK-----------
         //Class: FNameEntry
-        FNameEntryToNameString = 0x8;
+        FNameEntryToNameString = 0x8;    // оставлено
+
         //Class: FUObjectArray
-        FUObjectArrayToTUObjectArray = 0x10;
+        FUObjectArrayToTUObjectArray = 0x10; // оставлено
+
         //Class: TUObjectArray
-        TUObjectArrayToNumElements = 0x8;
+        TUObjectArrayToNumElements = 0x4;    // заменено на TUObjectArray::NumElements
+
         //Class: UObject
-        UObjectToInternalIndex = 0x8;
-        UObjectToClassPrivate = 0xC;
-        UObjectToFNameIndex = 0x10;
-        UObjectToOuterPrivate = 0x18;
+        UObjectToInternalIndex = 0x24;       // заменено на UObject::InternalIndex
+        UObjectToClassPrivate = 0x8;         // заменено на UObject::ClassPrivate
+        UObjectToFNameIndex = 0x4;           // заменено на FName::Number
+        UObjectToOuterPrivate = 0x10;        // заменено на UObject::OuterPrivate
+
         //Class: UField
-        UFieldToNext = 0x1C;
+        UFieldToNext = 0x28;                 // заменено на UField::Next
+
         //Class: UStruct
-        UStructToSuperStruct = 0x20;
-        UStructToChildren = 0x24;
+        UStructToSuperStruct = 0x40;         // заменено на UStruct::SuperStruct
+        UStructToChildren = 0x50;            // заменено на UStruct::Children
+        UStructToChildProperties = 0x68;     // заменено на UStruct::ChildProperties
+
         //Class: UFunction
-        UFunctionToFunctionFlags = 0x58;
-        UFunctionToFunc = 0x74;
+        UFunctionToFunctionFlags = 0xb8;     // заменено на UFunction::EFunctionFlags
+        UFunctionToFunc = 0xd8;              // заменено на UFunction::Func
+
         //Class: UProperty
-        UPropertyToElementSize = 0x24;
-        UPropertyToPropertyFlags = 0x28;
-        UPropertyToOffsetInternal = 0x34;
-        //Class: UBoolProperty
-        UBoolPropertyToFieldSize = 0x50;
-        UBoolPropertyToByteOffset = 0x51;
-        UBoolPropertyToByteMask = 0x52;
-        UBoolPropertyToFieldMask = 0x53;
-        //Class: UObjectProperty
-        UObjectPropertyToPropertyClass = 0x50;
-        //Class: UClassProperty
-        UClassPropertyToMetaClass = 0x54;
-        //Class: UInterfaceProperty
-        UInterfacePropertyToInterfaceClass = 0x54;
-        //Class: UArrayProperty
-        UArrayPropertyToInnerProperty = 0x50;
-        //Class: UMapProperty
-        UMapPropertyToKeyProp = 0x50;
-        UMapPropertyToValueProp = 0x54;
-        //Class: USetProperty
-        USetPropertyToElementProp = 0x50;
-        //Class: UStructProperty
-        UStructPropertyToStruct = 0x50;
-        //Class: UWorld
-        UWorldToPersistentLevel = 0x20;
-        //Class: ULevel
-        ULevelToAActors = 0x70;
-        ULevelToAActorsCount = 0x74;
-    }
+        UPropertyToElementSize = 0x3c;       // заменено на FProperty::ElementSize
+        UPropertyToPropertyFlags = 0x40;     // заменено на FProperty::PropertyFlags
+        UPropertyToOffsetInternal = 0x4c;    // заменено на FProperty::Offset_Internal
 
-    void patchUE423_32() {
-        //Class: FNamePool
-        FNameStride = 0x2;
-        GNamesToFNamePool = 0x30;
-        FNamePoolToCurrentBlock = 0x4;
-        FNamePoolToCurrentByteCursor = 0x8;
-        FNamePoolToBlocks = 0xC;
-        //Class: FNameEntry
-        FNameEntryToLenBit = 6;
-        FNameEntryToString = 0x2;
-        //Class: TUObjectArray
-        TUObjectArrayToNumElements = 0x10;
-        //Class: UStruct
-        UStructToChildProperties = 0x28;
         //Class: FField
-        FFieldToClass = 0x4;
-        FFieldToNext = 0x10;
-        FFieldToName = 0x14;
-    }
+        FFieldToClass = 0x20;                // заменено на FField::ClassPrivate
+        FFieldToNext = 0x18;                 // заменено на FField::Next
+        FFieldToName = 0x28;                 // заменено на FField::NamePrivate
 
-    void patchCustom_32() {
+        //FNamePool
+        FNameStride = 2;                      // заменено на FNamePool::Stride
+        FNamePoolToBlocks = 0xc8;            // заменено на FNamePool::BlocksOff
+        FNamePoolToCurrentBlock = 0x4;       // оставлено
+        FNamePoolToCurrentByteCursor = 0x8;  // оставлено
 
+        //Дополнительно
+        UObjectToNamePrivate = 0x1c;         // заменено на UObject::NamePrivate
+        UObjectToObjectFlags = 0x18;         // заменено на UObject::ObjectFlags
+        UEnumToNames = 0x40;                 // заменено на UEnum::Names
+        UStructToPropertiesSize = 0x3c;      // заменено на UStruct::PropertiesSize
+        UFunctionToNumParams = 0xb0;         // заменено на UFunction::NumParams
+        UFunctionToParamSize = 0xb2;         // заменено на UFunction::ParamSize
+        FFieldToFlagsPrivate = 0x8;          // заменено на FField::FlagsPrivate
+        FPropertyToArrayDim = 0x38;          // заменено на FProperty::ArrayDim
+        FPropertyToSize = 0x78;              // заменено на FProperty::Size
     }
 
     void initOffsets_64() {
         //Global
-        PointerSize = 0x8;
-        FUObjectItemSize = 0x18;
+        PointerSize = 0x8;                   // оставлено
+        FUObjectItemSize = 0x18;             // заменено на FUObjectItem::Size
 
-        //---------SDK-----------
         //Class: FNameEntry
-        FNameEntryToNameString = 0x10;
+        FNameEntryToNameString = 0x10;       // оставлено
+
         //Class: FUObjectArray
-        FUObjectArrayToTUObjectArray = 0x10;
+        FUObjectArrayToTUObjectArray = 0x10; // оставлено
+
         //Class: TUObjectArray
-        TUObjectArrayToNumElements = 0xC;
+        TUObjectArrayToNumElements = 0x4;    // заменено на TUObjectArray::NumElements
+
         //Class: UObject
-        UObjectToInternalIndex = 0xC;
-        UObjectToClassPrivate = 0x10;
-        UObjectToFNameIndex = 0x18;
-        UObjectToOuterPrivate = 0x20;
+        UObjectToInternalIndex = 0x24;       // заменено на UObject::InternalIndex
+        UObjectToClassPrivate = 0x8;         // заменено на UObject::ClassPrivate
+        UObjectToFNameIndex = 0x4;           // заменено на FName::Number
+        UObjectToOuterPrivate = 0x10;        // заменено на UObject::OuterPrivate
+
         //Class: UField
-        UFieldToNext = 0x28;
+        UFieldToNext = 0x28;                 // заменено на UField::Next
+
         //Class: UStruct
-        UStructToSuperStruct = 0x30;
-        UStructToChildren = 0x38;
+        UStructToSuperStruct = 0x40;         // заменено на UStruct::SuperStruct
+        UStructToChildren = 0x50;            // заменено на UStruct::Children
+        UStructToChildProperties = 0x68;     // заменено на UStruct::ChildProperties
+
         //Class: UFunction
-        UFunctionToFunctionFlags = 0x88;
-        UFunctionToFunc = 0xB0;
+        UFunctionToFunctionFlags = 0xb8;     // заменено на UFunction::EFunctionFlags
+        UFunctionToFunc = 0xd8;              // заменено на UFunction::Func
+
         //Class: UProperty
-        UPropertyToElementSize = 0x34;
-        UPropertyToPropertyFlags = 0x38;
-        UPropertyToOffsetInternal = 0x44;
-        //Class: UBoolProperty
-        UBoolPropertyToFieldSize = 0x70;
-        UBoolPropertyToByteOffset = 0x71;
-        UBoolPropertyToByteMask = 0x72;
-        UBoolPropertyToFieldMask = 0x73;
-        //Class: UObjectProperty
-        UObjectPropertyToPropertyClass = 0x70;
-        //Class: UClassProperty
-        UClassPropertyToMetaClass = 0x78;
-        //Class: UInterfaceProperty
-        UInterfacePropertyToInterfaceClass = 0x78;
-        //Class: UArrayProperty
-        UArrayPropertyToInnerProperty = 0x70;
-        //Class: UMapProperty
-        UMapPropertyToKeyProp = 0x70;
-        UMapPropertyToValueProp = 0x78;
-        //Class: USetProperty
-        USetPropertyToElementProp = 0x70;
-        //Class: UStructProperty
-        UStructPropertyToStruct = 0x70;
-        //Class: UWorld
-        UWorldToPersistentLevel = 0x30;
-        //Class: ULevel
-        ULevelToAActors = 0x98;
-        ULevelToAActorsCount = 0xA0;
-    }
+        UPropertyToElementSize = 0x3c;       // заменено на FProperty::ElementSize
+        UPropertyToPropertyFlags = 0x40;     // заменено на FProperty::PropertyFlags
+        UPropertyToOffsetInternal = 0x4c;    // заменено на FProperty::Offset_Internal
 
-    void patchUE423_64() {
-        //Class: FNamePool
-        FNameStride = 0x2;
-        GNamesToFNamePool = 0x30;
-        FNamePoolToCurrentBlock = 0x8;
-        FNamePoolToCurrentByteCursor = 0xC;
-        FNamePoolToBlocks = 0x10;
-        //Class: FNameEntry
-        FNameEntryToLenBit = 6;
-        FNameEntryToString = 0x2;
-        //Class: TUObjectArray
-        TUObjectArrayToNumElements = 0x14;
-        //Class: UStruct
-        UStructToChildProperties = 0x44;
         //Class: FField
-        FFieldToClass = 0x8;
-        FFieldToNext = 0x20;
-        FFieldToName = 0x28;
-    }
+        FFieldToClass = 0x20;                // заменено на FField::ClassPrivate
+        FFieldToNext = 0x18;                 // заменено на FField::Next
+        FFieldToName = 0x28;                 // заменено на FField::NamePrivate
 
-    void patchCustom_64() {
+        //FNamePool
+        FNameStride = 2;                      // заменено на FNamePool::Stride
+        FNamePoolToBlocks = 0xc8;            // заменено на FNamePool::BlocksOff
+        FNamePoolToCurrentBlock = 0x8;       // оставлено
+        FNamePoolToCurrentByteCursor = 0xc;  // оставлено
 
-        if (isARKSurvival()) {
-            //Class: UWorld
-            UPropertyToOffsetInternal = 0x50;
-            UWorldToPersistentLevel = 0x58;
-        }
+        //Дополнительно
+        UObjectToNamePrivate = 0x1c;         // заменено на UObject::NamePrivate
+        UObjectToObjectFlags = 0x18;         // заменено на UObject::ObjectFlags
+        UEnumToNames = 0x40;                 // заменено на UEnum::Names
+        UStructToPropertiesSize = 0x3c;      // заменено на UStruct::PropertiesSize
+        UFunctionToNumParams = 0xb0;         // заменено на UFunction::NumParams
+        UFunctionToParamSize = 0xb2;         // заменено на UFunction::ParamSize
+        FFieldToFlagsPrivate = 0x8;          // заменено на FField::FlagsPrivate
+        FPropertyToArrayDim = 0x38;          // заменено на FProperty::ArrayDim
+        FPropertyToSize = 0x78;              // заменено на FProperty::Size
     }
 }
 
