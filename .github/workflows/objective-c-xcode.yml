@@ -1,4 +1,4 @@
-name: Build UE4Dumper Executable
+name: Build iOS Project
 
 on:
   workflow_dispatch:
@@ -8,35 +8,23 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # 1. Клонируем репозиторий
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Настройка Xcode
-      - name: Set up Xcode
-        run: |
-          sudo xcode-select -s /Applications/Xcode_16.4.app
-          xcodebuild -version
-
-      # 3. Сборка под macOS (консольный бинарь)
-      - name: Build macOS executable
+      - name: Build iOS app
         run: |
           xcodebuild \
             -project UE4Dumper-IOS.xcodeproj \
             -scheme UE4Dumper-IOS \
             -configuration Release \
-            -sdk macosx \
-            ONLY_ACTIVE_ARCH=NO \
-            ENABLE_BITCODE=NO \
-            GCC_TREAT_WARNINGS_AS_ERRORS=NO \
-            CLANG_WARNINGS_AS_ERRORS=NO \
+            -sdk iphoneos \
             build \
-            -quiet
+            CODE_SIGNING_ALLOWED=NO
 
-      # 4. Копирование и загрузка бинаря
-      - name: Upload executable
+      - name: Upload .app artifact
         uses: actions/upload-artifact@v4
         with:
-          name: UE4Dumper-Executable
+          name: UE4Dumper-IOS
           path: |
-            /Users/runner/Library/Developer/Xcode/DerivedData/UE4Dumper-IOS-*/Build/Products/Release/UE4Dumper-IOS
+            /Users/runner/Library/Developer/Xcode/DerivedData/UE4Dumper-IOS-*/Build/Products/Release-iphoneos/UE4Dumper-IOS.app
+            
